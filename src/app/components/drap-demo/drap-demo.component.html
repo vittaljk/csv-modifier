@@ -1,4 +1,5 @@
 <input type="file" (change)="readFile($event)">
+<button (click)="download()">Download</button>
 <div class="container" *ngIf="simpleList.length > 0">
     <div class="dndPlaceholder col-md-12" #placeholder></div>
     <h3>Simple Drag and Drop</h3>
