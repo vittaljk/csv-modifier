@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { PapaParseService } from 'ngx-papaparse';
 
 @Component({
     selector: 'app-drap-demo',
@@ -7,24 +8,23 @@ import { Component, OnInit } from '@angular/core';
 })
 
 export class DrapDemoComponent implements OnInit {
-    public simpleList = [
-        [
-            { 'name': 'John' },
-            { 'name': 'Smith' },
-            { 'name': 'George' },
-        ],
-        [
-            { 'name': 'Jennifer' },
-            { 'name': 'Laura' },
-            { 'name': 'Georgina' },
-        ]
-    ];
+    simpleList = [];
 
-    public removeItem(item: any, list: any[]): void {
-        list.splice(list.indexOf(item), 1);
+    constructor(private papa: PapaParseService) {}
+
+    ngOnInit() { }
+
+    readFile(event): void {
+        this.papa.parse(event.target.files[0], {
+            complete: (result) => {
+                this.simpleList.push(result.data);
+                const csv = this.papa.unparse(result.data);
+                console.log(csv);
+            }
+        });
     }
 
-    constructor() {}
-
-    ngOnInit() {}
+    removeItem(item: any, list: any[]): void {
+        list.splice(list.indexOf(item), 1);
+    }
 }

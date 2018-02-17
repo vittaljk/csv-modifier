@@ -11,6 +11,9 @@ import { DrapDemoComponent } from './components/drap-demo/drap-demo.component';
 // Modules
 import { DndListModule } from 'ngx-drag-and-drop-lists';
 
+// services
+import { PapaParseService } from 'ngx-papaparse';
+
 const routes: Routes = [
     { path: '', redirectTo: 'demo', pathMatch: 'full' },
     { path: 'home', component: HomeComponent },
@@ -34,7 +37,7 @@ const components = [
         RouterModule.forRoot(routes),
         DndListModule
     ],
-    providers: [],
+    providers: [PapaParseService],
     bootstrap: [AppComponent]
 })
 

@@ -1,15 +1,16 @@
-<div class="container">
+<input type="file" (change)="readFile($event)">
+<div class="container" *ngIf="simpleList.length > 0">
     <div class="dndPlaceholder col-md-12" #placeholder></div>
     <h3>Simple Drag and Drop</h3>
 
     <div class="row">
         <div class="col-md-6" [dndList] [dndPlaceholder]="placeholder" [dndModel]="simpleList[0]">
             <div *ngFor="let item of simpleList[0]" class="col-md-12" [dndType]="'item'" (dndMoved)="removeItem(item, simpleList[0])"
-                [dndDraggable] [dndObject]="item">{{item.name}}</div>
+                [dndDraggable] [dndObject]="item">{{item}}</div>
         </div>
         <div class="col-md-6" [dndList] [dndModel]="simpleList[1]" [dndPlaceholder]="placeholder">
             <div *ngFor="let item of simpleList[1]" class="col-md-12" [dndType]="'item'" (dndMoved)="removeItem(item, simpleList[1])"
-                [dndDraggable] [dndObject]="item">{{item.name}}</div>
+                [dndDraggable] [dndObject]="item">{{item}}</div>
         </div>
     </div>
 </div>
