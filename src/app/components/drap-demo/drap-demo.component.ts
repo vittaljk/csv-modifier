@@ -18,20 +18,27 @@ export class DrapDemoComponent implements OnInit {
         this.papa.parse(event.target.files[0], {
             complete: result => {
                 this.simpleList.push(result.data);
+                console.log(this.simpleList);
             }
         });
     }
 
     removeItem(item: any, list: any[]): void {
         list.splice(list.indexOf(item), 1);
+        console.log(this.simpleList);
     }
 
-    download(): void {
-        const csvString = this.papa.unparse(this.simpleList[0]);
+    download(index: number): void {
+        const csvString = this.papa.unparse(this.simpleList[index]);
         const blob = new Blob([csvString], { type: 'text/csv' });
         const url = window.URL.createObjectURL(blob);
         window.open(url);
-        // or
-        // window.open(window.URL.createObjectURL(new Blob([this.papa.unparse(this.simpleList[0])], { type: 'text/csv' })));
+    }
+
+    changeOrder(header, dest: number) {
+        // console.log(header, dest);
+        // console.log(this.simpleList[0][0].indexOf(header));
+        console.log(this.simpleList[0][0]);
+        // console.log(this.simpleList[0][0][this.simpleList[0][0].indexOf(header)]);
     }
 }
