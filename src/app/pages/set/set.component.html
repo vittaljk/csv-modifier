@@ -4,7 +4,7 @@
         <h3>upload upto 4 files <input [style.display]="'none'" type="file" #importfile (change)="readFile($event)"> <button  (click)="importfile.click()" mat-raised-button color="accent">Upload</button></h3>
     </div>
 
-    <div *ngIf="fileSet.files?.length > 0">
+    <div *ngIf="pageReady">
         <div class="dndPlaceholder col-md-12" #placeholder></div>
         <div>
             <div *ngFor="let header of fileSet.headers">
@@ -28,5 +28,15 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="form-container" *ngIf="showForm && rowForm">
+        <h3>Edit row</h3>
+        <div [formGroup]="rowForm">
+            <div *ngFor="let control of getControlNames(rowForm.controls)">
+                <input type="text" [formControlName]="control">
+            </div>
+        </div>
+        <div (click)="saveEditedRow()">save</div>
     </div>
 </div>

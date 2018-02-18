@@ -3,6 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { PapaParseService } from 'ngx-papaparse';
 import { FileSet } from '../../models/models';
 import { FileDataService } from '../../services/file-data.service';
+import * as _ from 'underscore';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
     selector: 'app-set',
@@ -12,14 +14,27 @@ import { FileDataService } from '../../services/file-data.service';
 
 export class SetComponent implements OnInit, OnDestroy {
     subscriptions = [];
-    fileSet: FileSet = new FileSet();
+    fileSet: FileSet;
     fileSetId: string;
+    pageReady = false;
+    showForm = false;
+    rowForm: FormGroup;
 
-    constructor(private aRoute: ActivatedRoute, private papa: PapaParseService, private fileDataService: FileDataService) {}
+    constructor(private aRoute: ActivatedRoute, private papa: PapaParseService, private fileDataService: FileDataService) {
+        this.fileSet = new FileSet({
+            headers: [],
+            files: []
+        });
+    }
 
     ngOnInit() {
         const paramSub = this.aRoute.params.subscribe(params => {
             this.fileSetId = params['id'];
+            this.fileDataService.setActiveSet(this.fileSetId);
+            this.fileDataService.fileData[this.fileSetId] = new FileSet({
+                headers: [],
+                files: []
+            });
         });
         this.subscriptions.push(paramSub);
     }
@@ -35,12 +50,32 @@ export class SetComponent implements OnInit, OnDestroy {
     readFile(event): void {
         this.papa.parse(event.target.files[0], {
             complete: result => {
-                this.fileSet.headers.push(result.data[0]);
+                this.fileDataService.fileData[this.fileSetId].headers.push(result.data[0]);
                 result.data.shift();
-                this.fileSet.files.push(result.data);
-                console.log(this.fileSet);
+                this.fileDataService.fileData[this.fileSetId].files.push(result.data);
+                this.pageReady = true;
+                this.fileSet = this.fileDataService.getSetBykey(this.fileSetId);
             }
         });
+    }
+
+    swapHeaders(source: number, destination: number, fileIndex = 0): void {
+        for (let index = 0; index < this.fileSet.files[fileIndex].length; index++) {
+            this.fileSet.files[fileIndex][index] = this.swapCells(source, destination, this.fileSet.files[fileIndex][index]);
+        }
+        const headers = [...this.fileSet.headers[fileIndex]];
+        const temp = headers[source];
+        headers[source] = headers[destination];
+        headers[destination] = temp;
+        this.fileSet.headers[fileIndex] = headers;
+    }
+
+    swapCells(source: number, destination: number, arr: Array<any>): Array<any> {
+        const arrCopy = [...arr];
+        const temp = arrCopy[source];
+        arrCopy[source] = arrCopy[destination];
+        arrCopy[destination] = temp;
+        return arrCopy;
     }
 
     download(index: number): void {
@@ -52,5 +87,24 @@ export class SetComponent implements OnInit, OnDestroy {
 
     removeItem(item: any, list: any[]): void {
         list.splice(list.indexOf(item), 1);
+    }
+
+    editRow(row, headerIndex): void {
+        this.showForm = true;
+        const rowObj = _.object(this.fileSet.headers[headerIndex], row);
+        for (const key in rowObj) {
+            if (rowObj.hasOwnProperty(key)) {
+                rowObj[key] = new FormControl(rowObj[key]);
+            }
+        }
+        this.rowForm = new FormGroup(rowObj as { [key: string]: FormControl });
+    }
+
+    saveEditedRow(): void {
+        this.fileSet.files[0][0] = _.values(this.rowForm.value);
+    }
+
+    getControlNames(control): Array<string> {
+        return _.keys(control);
     }
 }

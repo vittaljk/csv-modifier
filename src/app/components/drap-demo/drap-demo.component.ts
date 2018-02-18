@@ -11,11 +11,16 @@ import * as _ from 'underscore';
 })
 
 export class DrapDemoComponent implements OnInit {
-    fileSet: FileSet = new FileSet();
+    fileSet: FileSet;
     showForm = false;
     rowForm: FormGroup;
 
-    constructor(private papa: PapaParseService) {}
+    constructor(private papa: PapaParseService) {
+        this.fileSet = new FileSet({
+            headers: [],
+            files: []
+        });
+    }
 
     ngOnInit() {}
 
