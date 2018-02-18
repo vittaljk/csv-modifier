@@ -2,3 +2,31 @@
     width: 90%;
     margin: auto;
 }
+
+.files-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.file-row-container {
+    flex-grow: 1;
+    flex-shrink: 0;
+}
+
+.file-row {
+    padding: 15px 10px;
+    background-color: rgba(86, 61, 124, .15);
+    border: 1px solid rgba(86, 61, 124, .2);
+}
+
+.dndPlaceholder {
+    background-color: #ddd;
+    display: block;
+    min-height: 42px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    border: 1px solid rgba(86, 61, 124, .2);
+    position: relative;
+    padding-right: 15px;
+    padding-left: 15px;
+}

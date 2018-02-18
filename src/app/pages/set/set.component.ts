@@ -1,5 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { PapaParseService } from 'ngx-papaparse';
+import { FileSet } from '../../models/models';
 
 @Component({
     selector: 'app-set',
@@ -9,8 +11,9 @@ import { ActivatedRoute } from '@angular/router';
 
 export class SetComponent implements OnInit, OnDestroy {
     subscriptions = [];
+    fileSet: FileSet = new FileSet();
 
-    constructor(private aRoute: ActivatedRoute) {}
+    constructor(private aRoute: ActivatedRoute, private papa: PapaParseService) {}
 
     ngOnInit() {
         const paramSub = this.aRoute.params.subscribe(params => {
@@ -27,7 +30,25 @@ export class SetComponent implements OnInit, OnDestroy {
         }
     }
 
-    readFile(event) {
-        console.log(event);
+    readFile(event): void {
+        this.papa.parse(event.target.files[0], {
+            complete: result => {
+                this.fileSet.headers.push(result.data[0]);
+                result.data.shift();
+                this.fileSet.files.push(result.data);
+                console.log(this.fileSet);
+            }
+        });
+    }
+
+    download(index: number): void {
+        const csvString = this.papa.unparse(this.fileSet.files[index]);
+        const blob = new Blob([csvString], { type: 'text/csv' });
+        const url = window.URL.createObjectURL(blob);
+        window.open(url);
+    }
+
+    removeItem(item: any, list: any[]): void {
+        list.splice(list.indexOf(item), 1);
     }
 }
