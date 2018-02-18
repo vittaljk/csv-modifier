@@ -1,8 +1,12 @@
 <input type="file" (change)="readFile($event)">
-<div class="container" *ngIf="fileSet.length > 0">
+<div class="container" *ngIf="fileSet.files?.length > 0">
     <div class="dndPlaceholder col-md-12" #placeholder></div>
     <div class="row">
-        <div *ngFor="let files of fileSet; let i = index" class="col-md-6" [dndList] [dndPlaceholder]="placeholder" [dndModel]="fileSet[i]">
+        <div *ngFor="let header of fileSet.headers">
+            {{ header}}
+        </div>
+        <div (click)="swapHeaders(3, 1, 0)">change order</div>
+        <div *ngFor="let files of fileSet.files; let i = index" class="col-md-6" [dndList] [dndPlaceholder]="placeholder" [dndModel]="fileSet.files[i]">
             <div *ngFor="let row of files; let j = index"
                 class="col-md-12"
                 [dndType]="'row'"
@@ -12,7 +16,7 @@
                 <span *ngFor="let cell of row">
                     {{ cell }}
                 </span>
-                <span (click)="editRow(row)">edit</span>
+                <span (click)="editRow(row, i)">edit</span>
             </div>
             <button (click)="download(i)">Download</button>
         </div>

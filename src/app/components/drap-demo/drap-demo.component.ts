@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PapaParseService } from 'ngx-papaparse';
+import { FileSet } from '../models/models';
 
 @Component({
     selector: 'app-drap-demo',
@@ -8,7 +9,7 @@ import { PapaParseService } from 'ngx-papaparse';
 })
 
 export class DrapDemoComponent implements OnInit {
-    fileSet = [];
+    fileSet: FileSet = new FileSet();
 
     constructor(private papa: PapaParseService) {}
 
@@ -17,8 +18,9 @@ export class DrapDemoComponent implements OnInit {
     readFile(event): void {
         this.papa.parse(event.target.files[0], {
             complete: result => {
-                this.fileSet.push(result.data);
-                console.log(this.fileSet);
+                this.fileSet.headers.push(result.data[0]);
+                result.data.shift();
+                this.fileSet.files.push(result.data);
             }
         });
     }
@@ -29,20 +31,33 @@ export class DrapDemoComponent implements OnInit {
     }
 
     download(index: number): void {
-        const csvString = this.papa.unparse(this.fileSet[index]);
+        const csvString = this.papa.unparse(this.fileSet.files[index]);
         const blob = new Blob([csvString], { type: 'text/csv' });
         const url = window.URL.createObjectURL(blob);
         window.open(url);
     }
 
-    changeOrder(header, dest: number) {
-        // console.log(header, dest);
-        // console.log(this.fileSet[0][0].indexOf(header));
-        console.log(this.fileSet[0][0]);
-        // console.log(this.fileSet[0][0][this.fileSet[0][0].indexOf(header)]);
+    editRow(row, headerIndex): void {
+        console.log(row);
+        console.log(this.fileSet.headers[headerIndex]);
     }
 
-    editRow(row): void {
-        console.log(row);
+    swapHeaders(source: number, destination: number, setIndex = 0): void {
+        for (let index = 0; index < this.fileSet.files[setIndex].length; index++) {
+            this.fileSet.files[setIndex][index] = this.swapArray(source, destination, this.fileSet.files[setIndex][index]);
+        }
+        const headers = [...this.fileSet.headers[setIndex]];
+        const temp = headers[source];
+        headers[source] = headers[destination];
+        headers[destination] = temp;
+        this.fileSet.headers[setIndex] = headers;
+    }
+
+    swapArray(source: number, destination: number, arr: Array<any>): Array<any> {
+        const arrCopy = [...arr];
+        const temp = arrCopy[source];
+        arrCopy[source] = arrCopy[destination];
+        arrCopy[destination] = temp;
+        return arrCopy;
     }
 }
