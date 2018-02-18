@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PapaParseService } from 'ngx-papaparse';
-import { FileSet } from '../models/models';
+import { FileSet } from '../../models/models';
 import { FormControl, FormGroup } from '@angular/forms';
 import * as _ from 'underscore';
 

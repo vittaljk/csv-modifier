@@ -1,16 +1,18 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 // Components
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
-import { SetsListComponent } from './components/sets-list/sets-list.component';
+import { SetsListComponent } from './pages/sets-list/sets-list.component';
 import { DrapDemoComponent } from './components/drap-demo/drap-demo.component';
 
 // Modules
 import { ReactiveFormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DndListModule } from 'ngx-drag-and-drop-lists';
+import { AppMaterialModule } from './app-material.module';
 
 // services
 import { PapaParseService } from 'ngx-papaparse';
@@ -37,9 +39,12 @@ const components = [
         BrowserModule,
         ReactiveFormsModule,
         RouterModule.forRoot(routes),
-        DndListModule
+        BrowserAnimationsModule,
+        DndListModule,
+        AppMaterialModule
     ],
     providers: [PapaParseService],
+    schemas: [NO_ERRORS_SCHEMA],
     bootstrap: [AppComponent]
 })
 

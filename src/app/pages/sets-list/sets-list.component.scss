@@ -1,0 +1,28 @@
+.sets-list-container {
+    width: 50%;
+    margin: 50px auto;
+}
+
+.list-item {
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    p {
+        margin: 0;
+        font-size: 18px;
+    }
+    i {
+        font-size: 20px;
+    }
+}
+
+.add-list {
+    position: fixed;
+    right: 5%;
+    bottom: 5%;
+    i {
+        font-size: 25px;
+    }
+}

@@ -1,0 +1,14 @@
+<mat-toolbar color="primary">File sets</mat-toolbar>
+
+<div class="sets-list-container">
+    <mat-card *ngFor="let set of sets" class="list-item" (click)="goToSet(set.id)">
+        <p>{{ set.name }}</p>
+        <i class="zmdi zmdi-arrow-right"></i>
+    </mat-card>
+</div>
+
+<div class="add-list" (click)="addSet()">
+    <button mat-fab color="accent">
+        <i class="zmdi zmdi-plus"></i>
+    </button>
+</div>
