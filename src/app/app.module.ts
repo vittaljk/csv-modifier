@@ -17,6 +17,7 @@ import { AppMaterialModule } from './app-material.module';
 
 // services
 import { PapaParseService } from 'ngx-papaparse';
+import { FileDataService } from './services/file-data.service';
 
 const routes: Routes = [
     { path: '', redirectTo: 'demo', pathMatch: 'full' },
@@ -46,7 +47,7 @@ const components = [
         DndListModule,
         AppMaterialModule
     ],
-    providers: [PapaParseService],
+    providers: [PapaParseService, FileDataService],
     schemas: [NO_ERRORS_SCHEMA],
     bootstrap: [AppComponent]
 })

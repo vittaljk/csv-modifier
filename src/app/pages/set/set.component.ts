@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PapaParseService } from 'ngx-papaparse';
 import { FileSet } from '../../models/models';
+import { FileDataService } from '../../services/file-data.service';
 
 @Component({
     selector: 'app-set',
@@ -12,12 +13,13 @@ import { FileSet } from '../../models/models';
 export class SetComponent implements OnInit, OnDestroy {
     subscriptions = [];
     fileSet: FileSet = new FileSet();
+    fileSetId: string;
 
-    constructor(private aRoute: ActivatedRoute, private papa: PapaParseService) {}
+    constructor(private aRoute: ActivatedRoute, private papa: PapaParseService, private fileDataService: FileDataService) {}
 
     ngOnInit() {
         const paramSub = this.aRoute.params.subscribe(params => {
-            console.log(params['id']);
+            this.fileSetId = params['id'];
         });
         this.subscriptions.push(paramSub);
     }
