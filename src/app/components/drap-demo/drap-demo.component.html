@@ -22,3 +22,13 @@
         </div>
     </div>
 </div>
+
+<div class="form-container" *ngIf="showForm && rowForm">
+    <h3>Edit row</h3>
+    <div [formGroup]="rowForm">
+        <div *ngFor="let control of getControlNames(rowForm.controls)">
+            <input type="text" [formControlName]="control">
+        </div>
+    </div>
+    <div (click)="saveEditedRow()">save</div>
+</div>

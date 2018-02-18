@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { PapaParseService } from 'ngx-papaparse';
 import { FileSet } from '../models/models';
+import { FormControl, FormGroup } from '@angular/forms';
+import * as _ from 'underscore';
 
 @Component({
     selector: 'app-drap-demo',
@@ -10,6 +12,8 @@ import { FileSet } from '../models/models';
 
 export class DrapDemoComponent implements OnInit {
     fileSet: FileSet = new FileSet();
+    showForm = false;
+    rowForm: FormGroup;
 
     constructor(private papa: PapaParseService) {}
 
@@ -27,7 +31,6 @@ export class DrapDemoComponent implements OnInit {
 
     removeItem(item: any, list: any[]): void {
         list.splice(list.indexOf(item), 1);
-        console.log(this.fileSet);
     }
 
     download(index: number): void {
@@ -38,8 +41,14 @@ export class DrapDemoComponent implements OnInit {
     }
 
     editRow(row, headerIndex): void {
-        console.log(row);
-        console.log(this.fileSet.headers[headerIndex]);
+        this.showForm = true;
+        const rowObj = _.object(this.fileSet.headers[headerIndex], row);
+        for (const key in rowObj) {
+            if (rowObj.hasOwnProperty(key)) {
+                rowObj[key] = new FormControl(rowObj[key]);
+            }
+        }
+        this.rowForm = new FormGroup(rowObj as { [key: string]: FormControl });
     }
 
     swapHeaders(source: number, destination: number, setIndex = 0): void {
@@ -59,5 +68,13 @@ export class DrapDemoComponent implements OnInit {
         arrCopy[source] = arrCopy[destination];
         arrCopy[destination] = temp;
         return arrCopy;
+    }
+
+    getControlNames(control): Array<string> {
+        return _.keys(control);
+    }
+
+    saveEditedRow(): void {
+        this.fileSet.files[0][0] = _.values(this.rowForm.value);
     }
 }

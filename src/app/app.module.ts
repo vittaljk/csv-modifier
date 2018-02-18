@@ -9,6 +9,7 @@ import { SetsListComponent } from './components/sets-list/sets-list.component';
 import { DrapDemoComponent } from './components/drap-demo/drap-demo.component';
 
 // Modules
+import { ReactiveFormsModule } from '@angular/forms';
 import { DndListModule } from 'ngx-drag-and-drop-lists';
 
 // services
@@ -34,6 +35,7 @@ const components = [
     ],
     imports: [
         BrowserModule,
+        ReactiveFormsModule,
         RouterModule.forRoot(routes),
         DndListModule
     ],
