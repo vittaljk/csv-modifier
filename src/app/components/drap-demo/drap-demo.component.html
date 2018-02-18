@@ -3,14 +3,16 @@
     <div class="dndPlaceholder col-md-12" #placeholder></div>
     <div class="row">
         <div *ngFor="let files of fileSet; let i = index" class="col-md-6" [dndList] [dndPlaceholder]="placeholder" [dndModel]="fileSet[i]">
-            <div *ngFor="let rows of files; let j = index"
+            <div *ngFor="let row of files; let j = index"
                 class="col-md-12"
-                [dndType]="'rows'"
-                (dndMoved)="removeItem(rows, files)"
+                [dndType]="'row'"
+                (dndMoved)="removeItem(row, files)"
                 [dndDraggable]
-                [dndObject]="rows">
-                <span *ngFor="let row of rows">{{ row }}</span>
-                <span (click)="edit"></span>
+                [dndObject]="row">
+                <span *ngFor="let cell of row">
+                    {{ cell }}
+                </span>
+                <span (click)="editRow(row)">edit</span>
             </div>
             <button (click)="download(i)">Download</button>
         </div>

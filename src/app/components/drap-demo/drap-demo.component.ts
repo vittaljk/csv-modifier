@@ -42,7 +42,7 @@ export class DrapDemoComponent implements OnInit {
         // console.log(this.fileSet[0][0][this.fileSet[0][0].indexOf(header)]);
     }
 
-    printItems(items): void {
-        console.log(items);
+    editRow(row): void {
+        console.log(row);
     }
 }
