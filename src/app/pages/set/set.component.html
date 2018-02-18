@@ -1,0 +1,7 @@
+<mat-toolbar color="primary">File set</mat-toolbar>
+<div class="set-container">
+    <div class="title">
+        <h3>upload upto 4 files <input [style.display]="'none'" type="file" #importfile (change)="readFile($event)"> <button  (click)="importfile.click()" mat-raised-button color="accent">Upload</button></h3>
+    </div>
+</div>
+

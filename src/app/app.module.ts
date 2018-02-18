@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { SetsListComponent } from './pages/sets-list/sets-list.component';
 import { DrapDemoComponent } from './components/drap-demo/drap-demo.component';
+import { SetComponent } from './pages/set/set.component';
 
 // Modules
 import { ReactiveFormsModule } from '@angular/forms';
@@ -21,13 +22,15 @@ const routes: Routes = [
     { path: '', redirectTo: 'demo', pathMatch: 'full' },
     { path: 'home', component: HomeComponent },
     { path: 'sets-list', component: SetsListComponent },
-    { path: 'demo', component: DrapDemoComponent }
+    { path: 'demo', component: DrapDemoComponent },
+    { path: 'set/:id', component: SetComponent }
 ];
 
 const components = [
     HomeComponent,
     SetsListComponent,
-    DrapDemoComponent
+    DrapDemoComponent,
+    SetComponent
 ];
 
 @NgModule({

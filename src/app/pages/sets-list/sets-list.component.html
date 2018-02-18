@@ -2,7 +2,7 @@
 
 <div class="sets-list-container">
     <mat-card *ngFor="let set of sets" class="list-item" (click)="goToSet(set.id)">
-        <p>{{ set.name }}</p>
+        <p> <i class="zmdi zmdi-folder"></i>{{ set.name }}</p>
         <i class="zmdi zmdi-arrow-right"></i>
     </mat-card>
 </div>
