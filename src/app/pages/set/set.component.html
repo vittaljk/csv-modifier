@@ -32,7 +32,9 @@
                     </span>
                     <span *ngIf="j !== 0"><i (click)="editRow(row, i, j)" class="zmdi zmdi-edit"></i></span>
                 </div>
-                <button (click)="download(i)">Download</button>
+                <div class="download">
+                    <button  (click)="download(i)" mat-raised-button color="accent">Download</button>
+                </div>
             </div>
         </div>
     </div>

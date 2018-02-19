@@ -102,6 +102,7 @@ export class SetComponent implements OnInit, OnDestroy {
 
         // open edit form
         const dialogRef = this.dialog.open(EditRowDialog, {
+            disableClose: true,
             height: 'auto',
             width: '40%',
             data: this.rowForm
