@@ -19,6 +19,11 @@ export class SetComponent implements OnInit, OnDestroy {
     pageReady = false;
     showForm = false;
     rowForm: FormGroup;
+    foods = [
+        {value: 'steak-0', viewValue: 'Steak'},
+        {value: 'pizza-1', viewValue: 'Pizza'},
+        {value: 'tacos-2', viewValue: 'Tacos'}
+    ];
 
     constructor(private aRoute: ActivatedRoute, private papa: PapaParseService, private fileDataService: FileDataService) {}
 
@@ -51,7 +56,7 @@ export class SetComponent implements OnInit, OnDestroy {
         });
     }
 
-    swapHeaders(source: number, destination: number, fileIndex = 0): void {
+    swapHeaders(source: number, destination: number, fileIndex): void {
         for (let index = 0; index < this.fileSet.files[fileIndex].length; index++) {
             this.fileSet.files[fileIndex][index] = this.swapCells(source, destination, this.fileSet.files[fileIndex][index]);
         }
@@ -99,5 +104,13 @@ export class SetComponent implements OnInit, OnDestroy {
 
     getControlNames(control): Array<string> {
         return _.keys(control);
+    }
+
+    getSelected(): number {
+        return 1;
+    }
+
+    changeOrder(event, initialIndex: number, fileIndex: number): void {
+        this.swapHeaders(initialIndex, event.value, fileIndex);
     }
 }

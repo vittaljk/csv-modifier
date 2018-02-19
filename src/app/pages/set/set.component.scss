@@ -3,6 +3,11 @@
     margin: auto;
 }
 
+.title {
+    display: flex;
+    justify-content: space-between;
+}
+
 .files-container {
     display: flex;
     flex-wrap: wrap;
@@ -11,12 +16,15 @@
 .file-row-container {
     flex-grow: 1;
     flex-shrink: 0;
+    flex-basis: 45%;
+    margin: 10px 15px;
 }
 
 .file-row {
     padding: 15px 10px;
     background-color: #f1f1f1;
     border: 1px solid #e0e0e0;
+    cursor: move;
 }
 
 .dndPlaceholder {
@@ -29,4 +37,32 @@
     position: relative;
     padding-right: 15px;
     padding-left: 15px;
+}
+
+.file-row {
+    display: flex;
+}
+
+.cell {
+    flex-basis: 20%;
+    flex-grow: 1;
+    flex-shrink: 0;
+}
+
+.bold-cell {
+    font-weight: bolder;
+}
+
+.header-row {
+    cursor: initial;
+}
+
+:host /deep/ mat-form-field {
+    .mat-form-field-infix {
+        width: 30px;
+    }
+}
+
+.zmdi-edit {
+    cursor: pointer;
 }

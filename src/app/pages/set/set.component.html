@@ -1,32 +1,38 @@
 <mat-toolbar color="primary">File set</mat-toolbar>
 <div class="set-container">
     <div class="title">
-        <h3>upload upto 4 files <input [style.display]="'none'" type="file" #importfile (change)="readFile($event)"> <button  (click)="importfile.click()" mat-raised-button color="accent">Upload</button></h3>
+        <h3>upload upto 4 files <input [style.display]="'none'" type="file" #importfile (change)="readFile($event)"> <button [disabled]="fileSet?.files?.length >= 4" (click)="importfile.click()" mat-raised-button color="accent">Upload</button></h3>
+        <h3><button routerLink="/sets-list" mat-raised-button color="accent">Back to sets list</button></h3>
     </div>
 
     <div *ngIf="fileSet?.files?.length > 0">
         <div class="dndPlaceholder col-md-12" #placeholder></div>
-        <div>
-            <!-- <div *ngFor="let header of fileSet.headers">
-                {{ header}}
-            </div> -->
-            <div (click)="swapHeaders(3, 1, 0)">change order</div>
-            <div class="files-container">
-                <div *ngFor="let files of fileSet.files; let i = index" class="file-row-container" [dndList] [dndPlaceholder]="placeholder" [dndModel]="fileSet.files[i]">
-                    <div *ngFor="let row of files; let j = index"
-                        class="file-row"
-                        [dndType]="'row'"
-                        (dndMoved)="removeItem(row, files)"
-                        [dndDraggable]
-                        [dndObject]="row"
-                        [dndDragDisabled]="j === 0">
-                        <span *ngFor="let cell of row">
-                            {{ cell }}
-                        </span>
-                        <span *ngIf="j !== 0" (click)="editRow(row, i)">edit</span>
-                    </div>
-                    <button (click)="download(i)">Download</button>
+        <div class="files-container">
+            <div *ngFor="let files of fileSet.files; let i = index" class="file-row-container mat-elevation-z8" [dndList] [dndPlaceholder]="placeholder" [dndModel]="fileSet.files[i]">
+                <div *ngFor="let row of files; let j = index"
+                    class="file-row"
+                    [class.header-row]="j===0"
+                    [dndType]="'row'"
+                    (dndMoved)="removeItem(row, files)"
+                    [dndDraggable]
+                    [dndObject]="row"
+                    [dndDragDisabled]="j === 0">
+                    <span class="cell" [class.bold-cell]="j===0" *ngFor="let cell of row; let l = index">
+                        {{ cell }}
+                        <div *ngIf="j===0">
+                            order:&nbsp;
+                            <mat-form-field>
+                                <mat-select id="{{l}}" [value]="l" (selectionChange)="changeOrder($event, l, i)">
+                                    <mat-option *ngFor="let header of fileSet.headers[0]; let k = index" [value]="k">
+                                        {{ k }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </span>
+                    <span *ngIf="j !== 0" (click)="editRow(row, i)"><i class="zmdi zmdi-edit"></i></span>
                 </div>
+                <button (click)="download(i)">Download</button>
             </div>
         </div>
     </div>
