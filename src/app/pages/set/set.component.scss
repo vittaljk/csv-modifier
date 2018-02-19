@@ -18,6 +18,8 @@
     flex-shrink: 0;
     flex-basis: 45%;
     margin: 10px 15px;
+    max-height: 370px;
+    overflow-y: auto;
 }
 
 .file-row {
