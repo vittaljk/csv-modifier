@@ -54,7 +54,6 @@ export class SetComponent implements OnInit, OnDestroy {
         this.papa.parse(event.target.files[0], {
             complete: result => {
                 this.fileDataService.fileData[this.fileSetId].headers.push(result.data[0]);
-                // result.data.shift();
                 this.fileDataService.fileData[this.fileSetId].files.push(result.data);
                 this.pageReady = true;
                 this.fileSet = this.fileDataService.getSetBykey(this.fileSetId);
