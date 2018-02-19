@@ -5,6 +5,8 @@ import { FileSet } from '../../models/models';
 import { FileDataService } from '../../services/file-data.service';
 import * as _ from 'underscore';
 import { FormControl, FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material';
+import { EditRowDialog } from '../../components/edit-row-dialog/edit-row-dialog';
 
 @Component({
     selector: 'app-set',
@@ -17,7 +19,6 @@ export class SetComponent implements OnInit, OnDestroy {
     fileSet: FileSet;
     fileSetId: string;
     pageReady = false;
-    showForm = false;
     rowForm: FormGroup;
     foods = [
         {value: 'steak-0', viewValue: 'Steak'},
@@ -25,7 +26,12 @@ export class SetComponent implements OnInit, OnDestroy {
         {value: 'tacos-2', viewValue: 'Tacos'}
     ];
 
-    constructor(private aRoute: ActivatedRoute, private papa: PapaParseService, private fileDataService: FileDataService) {}
+    constructor(
+        private aRoute: ActivatedRoute,
+        private papa: PapaParseService,
+        private fileDataService: FileDataService,
+        public dialog: MatDialog
+    ) { }
 
     ngOnInit() {
         const paramSub = this.aRoute.params.subscribe(params => {
@@ -86,8 +92,7 @@ export class SetComponent implements OnInit, OnDestroy {
         list.splice(list.indexOf(item), 1);
     }
 
-    editRow(row, headerIndex): void {
-        this.showForm = true;
+    editRow(row, headerIndex, rowIndex): void {
         const rowObj = _.object(this.fileSet.headers[headerIndex], row);
         for (const key in rowObj) {
             if (rowObj.hasOwnProperty(key)) {
@@ -95,11 +100,17 @@ export class SetComponent implements OnInit, OnDestroy {
             }
         }
         this.rowForm = new FormGroup(rowObj as { [key: string]: FormControl });
-    }
 
-    saveEditedRow(): void {
-        // this.fileSet.files[0][0] = _.values(this.rowForm.value);
-        console.log(this.rowForm.value);
+        // open edit form
+        const dialogRef = this.dialog.open(EditRowDialog, {
+            height: 'auto',
+            width: '40%',
+            data: this.rowForm
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            this.fileSet.files[headerIndex][rowIndex] = _.values(result)
+        });
     }
 
     getControlNames(control): Array<string> {

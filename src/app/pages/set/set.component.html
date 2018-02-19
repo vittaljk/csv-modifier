@@ -30,20 +30,10 @@
                             </mat-form-field>
                         </div>
                     </span>
-                    <span *ngIf="j !== 0" (click)="editRow(row, i)"><i class="zmdi zmdi-edit"></i></span>
+                    <span *ngIf="j !== 0"><i (click)="editRow(row, i, j)" class="zmdi zmdi-edit"></i></span>
                 </div>
                 <button (click)="download(i)">Download</button>
             </div>
         </div>
-    </div>
-
-    <div class="form-container" *ngIf="showForm && rowForm">
-        <h3>Edit row</h3>
-        <div [formGroup]="rowForm">
-            <div *ngFor="let control of getControlNames(rowForm.controls)">
-                <input type="text" [formControlName]="control">
-            </div>
-        </div>
-        <div (click)="saveEditedRow()">save</div>
     </div>
 </div>

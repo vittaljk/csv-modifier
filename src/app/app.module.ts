@@ -8,6 +8,7 @@ import { HomeComponent } from './components/home/home.component';
 import { SetsListComponent } from './pages/sets-list/sets-list.component';
 import { DrapDemoComponent } from './components/drap-demo/drap-demo.component';
 import { SetComponent } from './pages/set/set.component';
+import { EditRowDialog } from './components/edit-row-dialog/edit-row-dialog';
 
 // Modules
 import { ReactiveFormsModule } from '@angular/forms';
@@ -31,7 +32,8 @@ const components = [
     HomeComponent,
     SetsListComponent,
     DrapDemoComponent,
-    SetComponent
+    SetComponent,
+    EditRowDialog
 ];
 
 @NgModule({
@@ -48,6 +50,9 @@ const components = [
         AppMaterialModule
     ],
     providers: [PapaParseService, FileDataService],
+    entryComponents: [
+        EditRowDialog
+    ],
     schemas: [NO_ERRORS_SCHEMA],
     bootstrap: [AppComponent]
 })
