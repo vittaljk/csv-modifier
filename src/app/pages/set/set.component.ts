@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PapaParseService } from 'ngx-papaparse';
 import { FileSet } from '../../models/models';
 import { FileDataService } from '../../services/file-data.service';
@@ -30,12 +30,16 @@ export class SetComponent implements OnInit, OnDestroy {
         private aRoute: ActivatedRoute,
         private papa: PapaParseService,
         private fileDataService: FileDataService,
-        public dialog: MatDialog
+        public dialog: MatDialog,
+        public router: Router
     ) { }
 
     ngOnInit() {
         const paramSub = this.aRoute.params.subscribe(params => {
             this.fileSetId = params['id'];
+            if (!this.fileDataService.fileData[this.fileSetId]) {
+                this.router.navigate(['/sets-list']);
+            }
             this.fileSet = this.fileDataService.fileData[this.fileSetId];
             this.fileDataService.setActiveSet(this.fileSetId);
         });
