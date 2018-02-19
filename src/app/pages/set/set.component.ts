@@ -20,21 +20,13 @@ export class SetComponent implements OnInit, OnDestroy {
     showForm = false;
     rowForm: FormGroup;
 
-    constructor(private aRoute: ActivatedRoute, private papa: PapaParseService, private fileDataService: FileDataService) {
-        this.fileSet = new FileSet({
-            headers: [],
-            files: []
-        });
-    }
+    constructor(private aRoute: ActivatedRoute, private papa: PapaParseService, private fileDataService: FileDataService) {}
 
     ngOnInit() {
         const paramSub = this.aRoute.params.subscribe(params => {
             this.fileSetId = params['id'];
+            this.fileSet = this.fileDataService.fileData[this.fileSetId];
             this.fileDataService.setActiveSet(this.fileSetId);
-            this.fileDataService.fileData[this.fileSetId] = new FileSet({
-                headers: [],
-                files: []
-            });
         });
         this.subscriptions.push(paramSub);
     }
@@ -51,7 +43,7 @@ export class SetComponent implements OnInit, OnDestroy {
         this.papa.parse(event.target.files[0], {
             complete: result => {
                 this.fileDataService.fileData[this.fileSetId].headers.push(result.data[0]);
-                result.data.shift();
+                // result.data.shift();
                 this.fileDataService.fileData[this.fileSetId].files.push(result.data);
                 this.pageReady = true;
                 this.fileSet = this.fileDataService.getSetBykey(this.fileSetId);
@@ -101,7 +93,8 @@ export class SetComponent implements OnInit, OnDestroy {
     }
 
     saveEditedRow(): void {
-        this.fileSet.files[0][0] = _.values(this.rowForm.value);
+        // this.fileSet.files[0][0] = _.values(this.rowForm.value);
+        console.log(this.rowForm.value);
     }
 
     getControlNames(control): Array<string> {
