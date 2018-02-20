@@ -5,7 +5,7 @@ import { FileSet } from '../../models/models';
 import { FileDataService } from '../../services/file-data.service';
 import * as _ from 'underscore';
 import { FormControl, FormGroup } from '@angular/forms';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatSnackBar } from '@angular/material';
 import { EditRowDialog } from '../../components/edit-row-dialog/edit-row-dialog';
 
 @Component({
@@ -31,7 +31,8 @@ export class SetComponent implements OnInit, OnDestroy {
         private papa: PapaParseService,
         private fileDataService: FileDataService,
         public dialog: MatDialog,
-        public router: Router
+        public router: Router,
+        public snackBar: MatSnackBar
     ) { }
 
     ngOnInit() {
@@ -113,7 +114,8 @@ export class SetComponent implements OnInit, OnDestroy {
         });
 
         dialogRef.afterClosed().subscribe(result => {
-            this.fileSet.files[headerIndex][rowIndex] = _.values(result)
+            this.fileSet.files[headerIndex][rowIndex] = _.values(result);
+            this.snackBar.open('Done', '', { duration: 3000, horizontalPosition: 'right', verticalPosition: 'bottom' });
         });
     }
 
@@ -127,5 +129,6 @@ export class SetComponent implements OnInit, OnDestroy {
 
     changeOrder(event, initialIndex: number, fileIndex: number): void {
         this.swapHeaders(initialIndex, event.value, fileIndex);
+        this.snackBar.open('Order updated', '', { duration: 4000, horizontalPosition: 'right', verticalPosition: 'bottom' });
     }
 }
