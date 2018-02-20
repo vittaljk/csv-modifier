@@ -1,5 +1,5 @@
 import { Component, Inject } from "@angular/core";
-import { MAT_DIALOG_DATA } from "@angular/material";
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material";
 import * as _ from 'underscore';
 import { FormGroup } from "@angular/forms";
 
@@ -10,10 +10,12 @@ import { FormGroup } from "@angular/forms";
 })
 
 export class EditRowDialog {
+    dataCopy = {};
     rowForm: FormGroup;
 
     constructor(@Inject(MAT_DIALOG_DATA) public data: any) {
         this.rowForm = this.data;
+        this.dataCopy = { ...this.rowForm.value };
     }
 
     getControlNames(control): Array<string> {
