@@ -19,7 +19,7 @@ import { PapaParseService } from 'ngx-papaparse';
 import { FileDataService } from './services/file-data.service';
 
 const routes: Routes = [
-    { path: '', redirectTo: 'sets-list', pathMatch: 'full' },
+    { path: '', component: SetsListComponent },
     { path: 'sets-list', component: SetsListComponent },
     { path: 'set/:id', component: SetComponent }
 ];
