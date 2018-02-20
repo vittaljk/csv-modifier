@@ -1,6 +1,6 @@
 # CsvModifier
 
-Click here for [live demo](https://csv-modifier.herokuapp.com/sets-list)
+Click here for [live demo](https://csv-modifier.herokuapp.com)
 
 ## Steps to run
 * Install node version 8.9.0 and verify with
